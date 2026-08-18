@@ -21,8 +21,8 @@ const transformDocument = (_document, returnedObject) => {
 
     delete returnedObject.__v;
 
-    for (const key of SENSITIVE_FIELDS){
-        delete returnedObject[key];
+    for (const field of SENSITIVE_FIELDS){
+        delete returnedObject[field];
     }
 
     for(const key in returnedObject){
@@ -42,11 +42,12 @@ const transformDocument = (_document, returnedObject) => {
 
 /**
  * Options passed to both `toJSON` and `toObject` so serialized output is
- * identical either way: include virtuals, and run every document through
- * `transformDocument`.
+ * identical either way: include virtuals and getters, and run every
+ * document through `transformDocument`.
  */
 const serializationOptions = Object.freeze({
     virtuals: true,
+    getters: true,
     transform: transformDocument,
 })
 
@@ -69,5 +70,6 @@ const mongooseSchemaOptions = Object.freeze({
 })
 
 export {
-    mongooseSchemaOptions
+    mongooseSchemaOptions,
+    transformDocument
 }
