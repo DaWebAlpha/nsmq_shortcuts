@@ -1,3 +1,9 @@
+/**
+ * Reads and validates every environment variable the app needs, once, and
+ * exports a single frozen `config` object — the rest of the app imports
+ * this instead of reading `process.env` directly.
+ */
+
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -6,7 +12,9 @@ const {
     PORT,
     MONGO_URI,
     NODE_ENV,
-    LOG_LEVEL
+    LOG_LEVEL,
+    LOG_DIRECTORY,
+    SERVICE,
 } = process.env;
 
 const requiredEnvs = {
@@ -24,6 +32,12 @@ for (const [key, value] of Object.entries(requiredEnvs)){
     }
 }
 
+/**
+ * Coerces a raw (always-string) env var into a positive number.
+ * @param {string|undefined} value - The raw env var value.
+ * @param {number} fallback - Value to use if `value` is missing or not a positive finite number.
+ * @returns {number}
+ */
 const toNumber = (value, fallback) => {
     if(!value){
         return fallback;
@@ -61,11 +75,23 @@ const resolvedLogLevels = allowedLogLevels
                           LOG_LEVEL : "info";
 
 
+/**
+ * The app's single source of truth for runtime settings. Frozen so no
+ * other file can accidentally mutate shared config at runtime.
+ * @property {number} port
+ * @property {string} mongoUri
+ * @property {"development"|"test"|"production"} nodeEnv
+ * @property {"trace"|"debug"|"info"|"warn"|"error"|"fatal"} logLevel
+ * @property {string} logDirectory
+ * @property {string|undefined} service
+ */
 const config = Object.freeze({
     port: toNumber(PORT, 4000),
     mongoUri: MONGO_URI,
     nodeEnv: resolvedNodeEnvs,
     logLevel: resolvedLogLevels,
+    logDirectory: LOG_DIRECTORY || "logs",
+    service: SERVICE,
 })
 
 
