@@ -1,0 +1,1 @@
+export { MONGOOSE_OPTIONS } from "./mongoose.options.js";
