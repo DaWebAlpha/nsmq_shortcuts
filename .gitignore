@@ -1,3 +1,4 @@
 #Ignores .env
 .env
 node_modules
+logs
