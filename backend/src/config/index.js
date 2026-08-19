@@ -96,6 +96,7 @@ const resolvedLogLevels = allowedLogLevels
  * @property {string|undefined} service
  * @property {string} jwtAccessSecret
  * @property {number} jwtAccessExpirySeconds
+ * @property {number} jwtRefreshExpiryDays
  * @property {number} jwtRefreshExpiryMs
  * @property {string} accessTokenCookie
  * @property {string} refreshTokenCookie
@@ -109,6 +110,7 @@ const config = Object.freeze({
     service: SERVICE,
     jwtAccessSecret: JWT_ACCESS_SECRET,
     jwtAccessExpirySeconds: toNumber(ACCESS_TOKEN_EXPIRES_IN_SECONDS, 15 * 60),
+    jwtRefreshExpiryDays: toNumber(REFRESH_TOKEN_EXPIRES_IN_DAYS, 7),
     jwtRefreshExpiryMs: toNumber(REFRESH_TOKEN_EXPIRES_IN_DAYS, 7) * 24 * 60 * 60 * 1000,
     accessTokenCookie: ACCESS_TOKEN_COOKIE_NAME || "access_token",
     refreshTokenCookie: REFRESH_TOKEN_COOKIE_NAME || "refresh_token",
