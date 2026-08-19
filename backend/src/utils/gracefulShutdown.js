@@ -36,24 +36,11 @@ export function gracefulShutdown(server, options = {}) {
         connectionDrainTimeoutMs = 5_000,
     } = options;
 
-    /**
-     * Prevent duplicate shutdown execution
-     */
+   
     let isShuttingDown = false;
-
-    /**
-     * Track whether handlers have already been registered
-     */
     let handlersRegistered = false;
-
-    /**
-     * Track active socket connections
-     */
     const connections = new Set();
 
-    /**
-     * Track sockets so lingering connections can be destroyed if needed
-     */
     if (server?.on) {
         server.on("connection", (socket) => {
             connections.add(socket);
@@ -64,9 +51,6 @@ export function gracefulShutdown(server, options = {}) {
         });
     }
 
-    /**
-     * Safely destroy all tracked sockets
-     */
     const destroyOpenSockets = () => {
         for (const socket of connections) {
             try {
@@ -80,9 +64,6 @@ export function gracefulShutdown(server, options = {}) {
         }
     };
 
-    /**
-     * Close HTTP server
-     */
     const closeHttpServer = async () => {
         if (!server) return;
 
@@ -103,9 +84,7 @@ export function gracefulShutdown(server, options = {}) {
         });
     };
 
-    /**
-     * Close MongoDB connection
-     */
+    
     const closeMongoConnection = async () => {
         if (mongoose.connection.readyState === 0) {
             systemLogger.info("MongoDB already disconnected. Skipping close.");
@@ -116,9 +95,7 @@ export function gracefulShutdown(server, options = {}) {
         systemLogger.info("MongoDB connection closed.");
     };
 
-    /**
-     * Sleep helper
-     */
+   
     const wait = (ms) =>
         new Promise((resolve) => {
             const timer = setTimeout(resolve, ms);
