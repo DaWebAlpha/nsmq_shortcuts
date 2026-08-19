@@ -14,19 +14,18 @@ const notFound = (request, response, next) => {
 
     const wantsJson = request.accepts(["html", "json"]) === "json";
 
-    if(wantsJson){
-        return response.status(HTTP_STATUS.NOT_FOUND).json({
-            success: false,
-            title: "404 Error page",
-            message: `The requested resource ${request.originalUrl} could not be found on the server`,
-        })
-    }
 
-    return response.status(HTTP_STATUS.NOT_FOUND).render('404',{
+    const responseBody = {
         success: false,
         title: "404 Error page",
         message: `The requested resource ${request.originalUrl} could not be found on the server`,
-    })
+    }
+
+    if(wantsJson){
+        return response.status(HTTP_STATUS.NOT_FOUND).json(responseBody)
+    }
+
+    return response.status(HTTP_STATUS.NOT_FOUND).render('404', responseBody)
 }
 
 export {
