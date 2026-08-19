@@ -75,8 +75,20 @@ const allowedNodeEnvs = [
     "production"
 ];
 
-const resolvedNodeEnvs = allowedNodeEnvs.includes(NODE_ENV) ? 
-                         NODE_ENV : "development";
+let resolvedNodeEnvs;
+
+if (
+    NODE_ENV === undefined || 
+    NODE_ENV.trim() === ""
+) {
+    resolvedNodeEnvs = "development";
+} else if (allowedNodeEnvs.includes(NODE_ENV)) {
+    resolvedNodeEnvs = NODE_ENV;
+} else {
+    throw new Error(
+        `Invalid NODE_ENV: "${NODE_ENV}". Must be one of: ${allowedNodeEnvs.join(", ")}`
+    );
+}
 
 const allowedLogLevels = [ 
     "trace",
@@ -87,9 +99,17 @@ const allowedLogLevels = [
     "fatal",
     ];
 
-const resolvedLogLevels = allowedLogLevels
-                          .includes(LOG_LEVEL) ?
-                          LOG_LEVEL : "info";
+let resolvedLogLevels;
+
+if (LOG_LEVEL === undefined || LOG_LEVEL.trim() === "") {
+    resolvedLogLevels = "info";
+} else if (allowedLogLevels.includes(LOG_LEVEL)) {
+    resolvedLogLevels = LOG_LEVEL;
+} else {
+    throw new Error(
+        `Invalid LOG_LEVEL: "${LOG_LEVEL}". Must be one of: ${allowedLogLevels.join(", ")}`
+    );
+}
 
 
 /**
