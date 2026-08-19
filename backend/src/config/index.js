@@ -15,10 +15,12 @@ const {
     LOG_LEVEL,
     LOG_DIRECTORY,
     SERVICE,
+    JWT_ACCESS_SECRET,
 } = process.env;
 
 const requiredEnvs = {
     MONGO_URI,
+    JWT_ACCESS_SECRET,
 }
 
 for (const [key, value] of Object.entries(requiredEnvs)){
@@ -27,9 +29,13 @@ for (const [key, value] of Object.entries(requiredEnvs)){
         !value
     ){
         throw new Error(
-          `Missing .env value: ${key}`  
+          `Missing .env value: ${key}`
         )
     }
+}
+
+if(JWT_ACCESS_SECRET.length < 32){
+    throw new Error("JWT_ACCESS_SECRET must be at least 32 characters");
 }
 
 /**
@@ -84,6 +90,7 @@ const resolvedLogLevels = allowedLogLevels
  * @property {"trace"|"debug"|"info"|"warn"|"error"|"fatal"} logLevel
  * @property {string} logDirectory
  * @property {string|undefined} service
+ * @property {string} jwtAccessSecret
  */
 const config = Object.freeze({
     port: toNumber(PORT, 4000),
@@ -92,6 +99,7 @@ const config = Object.freeze({
     logLevel: resolvedLogLevels,
     logDirectory: LOG_DIRECTORY || "logs",
     service: SERVICE,
+    jwtAccessSecret: JWT_ACCESS_SECRET,
 })
 
 
