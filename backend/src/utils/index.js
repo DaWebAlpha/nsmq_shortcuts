@@ -38,3 +38,7 @@ export {
 export {
     respondAction
 } from "./responseAction.js";
+
+export {
+    normalizePhoneNumber
+} from "./phone.js";
