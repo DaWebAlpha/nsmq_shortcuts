@@ -27,6 +27,9 @@ const {
     MAIL_PASS,
     MAIL_FROM,
     PASSWORD_RESET_TOKEN_EXPIRY_MINUTES,
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    GOOGLE_REDIRECT_URI,
 } = process.env;
 
 const requiredEnvs = {
@@ -134,6 +137,9 @@ if (LOG_LEVEL === undefined || LOG_LEVEL.trim() === "") {
  * @property {string|undefined} mailPass
  * @property {string|undefined} mailFrom
  * @property {number} passwordResetTokenExpiryMinutes
+ * @property {string|undefined} googleClientId
+ * @property {string|undefined} googleClientSecret
+ * @property {string|undefined} googleRedirectUri
  */
 const config = Object.freeze({
     port: toNumber(PORT, 4000),
@@ -155,6 +161,9 @@ const config = Object.freeze({
     mailPass: MAIL_PASS,
     mailFrom: MAIL_FROM || MAIL_USER,
     passwordResetTokenExpiryMinutes: toNumber(PASSWORD_RESET_TOKEN_EXPIRY_MINUTES, 30),
+    googleClientId: GOOGLE_CLIENT_ID,
+    googleClientSecret: GOOGLE_CLIENT_SECRET,
+    googleRedirectUri: GOOGLE_REDIRECT_URI,
 })
 
 
