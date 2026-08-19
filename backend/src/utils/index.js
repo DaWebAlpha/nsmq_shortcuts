@@ -63,7 +63,17 @@ export {
     fetchOrNotFound
 } from "./fetchOrNotFound.js";
 
-// refreshTokenUtils.js isn't re-exported here yet -- it imports
-// RefreshToken from ../models/auth/refreshToken.model.js, which doesn't
-// exist yet. Adding it to this barrel before that model exists would
-// break every other export in this file too, not just this one.
+export {
+    generateRefreshToken,
+    verifyRefreshToken,
+    hashToken
+} from "./refreshTokenUtils.js";
+
+export {
+    sendPasswordResetEmail
+} from "./mailer.js";
+
+export {
+    generateSlug,
+    SLUG_SUFFIX_LENGTH
+} from "./genarateSlug.js";
