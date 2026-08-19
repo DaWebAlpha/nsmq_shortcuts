@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title><%= statusCode %> - Error</title>
+    </head>
+    <body>
+        <h1><%= statusCode %> - <%= message %></h1>
+        <% if (code) { %>
+            <p>Error code: <%= code %></p>
+        <% } %>
+    </body>
+</html>

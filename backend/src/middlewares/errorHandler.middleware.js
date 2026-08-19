@@ -43,14 +43,25 @@ const errorHandler = (error, request, response, next) => {
         "An error occurred during request processing"
     );
 
-    return response.status(statusCode).json({
-        success: false,
-        message: isOperational ? error.message : "Something went wrong",
+    const message = isOperational ? error.message : "Something went wrong";
+    const wantsJson = request.accepts(["html", "json"]) === "json";
+
+    if (wantsJson) {
+        return response.status(statusCode).json({
+            success: false,
+            message,
+            code,
+            stack: config.nodeEnv === "development" ?
+                error.stack :
+                "",
+        });
+    }
+
+    return response.status(statusCode).render("errorPage", {
+        statusCode,
+        message,
         code,
-        stack: config.nodeEnv === "development" ?
-            error.stack :
-            "",
-    })
+    });
 }
 
 export { errorHandler };
