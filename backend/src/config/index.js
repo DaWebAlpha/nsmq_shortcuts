@@ -20,6 +20,13 @@ const {
     REFRESH_TOKEN_EXPIRES_IN_DAYS,
     ACCESS_TOKEN_COOKIE_NAME,
     REFRESH_TOKEN_COOKIE_NAME,
+    MAIL_HOST,
+    MAIL_PORT,
+    MAIL_SECURE,
+    MAIL_USER,
+    MAIL_PASS,
+    MAIL_FROM,
+    PASSWORD_RESET_TOKEN_EXPIRY_MINUTES,
 } = process.env;
 
 const requiredEnvs = {
@@ -100,6 +107,13 @@ const resolvedLogLevels = allowedLogLevels
  * @property {number} jwtRefreshExpiryMs
  * @property {string} accessTokenCookie
  * @property {string} refreshTokenCookie
+ * @property {string|undefined} mailHost
+ * @property {number} mailPort
+ * @property {boolean} mailSecure
+ * @property {string|undefined} mailUser
+ * @property {string|undefined} mailPass
+ * @property {string|undefined} mailFrom
+ * @property {number} passwordResetTokenExpiryMinutes
  */
 const config = Object.freeze({
     port: toNumber(PORT, 4000),
@@ -114,6 +128,13 @@ const config = Object.freeze({
     jwtRefreshExpiryMs: toNumber(REFRESH_TOKEN_EXPIRES_IN_DAYS, 7) * 24 * 60 * 60 * 1000,
     accessTokenCookie: ACCESS_TOKEN_COOKIE_NAME || "access_token",
     refreshTokenCookie: REFRESH_TOKEN_COOKIE_NAME || "refresh_token",
+    mailHost: MAIL_HOST,
+    mailPort: toNumber(MAIL_PORT, 587),
+    mailSecure: MAIL_SECURE === "true",
+    mailUser: MAIL_USER,
+    mailPass: MAIL_PASS,
+    mailFrom: MAIL_FROM || MAIL_USER,
+    passwordResetTokenExpiryMinutes: toNumber(PASSWORD_RESET_TOKEN_EXPIRY_MINUTES, 30),
 })
 
 
