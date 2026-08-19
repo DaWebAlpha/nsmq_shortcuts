@@ -4,6 +4,12 @@ import { config } from "./config/index.js";
 import { systemLogger} from "./logger/pino.logger.js";
 
 
+/**
+ * Entry point: connects to the database before starting the HTTP server,
+ * so the app never accepts requests it can't actually serve. Exits the
+ * process on any startup failure rather than starting in a broken state.
+ * @returns {Promise<void>}
+ */
 const startServer = async() => {
     try{
         await connectDatabase();
