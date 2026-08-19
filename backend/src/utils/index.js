@@ -54,3 +54,7 @@ export {
     ACCESS_TOKEN_COOKIE,
     REFRESH_TOKEN_COOKIE
 } from "./authCookies.js";
+
+export {
+    buildSearchFilter
+} from "./buildSearchFilter.js";
