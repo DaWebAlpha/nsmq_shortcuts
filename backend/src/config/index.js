@@ -16,6 +16,8 @@ const {
     LOG_DIRECTORY,
     SERVICE,
     JWT_ACCESS_SECRET,
+    ACCESS_TOKEN_EXPIRES_IN_SECONDS,
+    REFRESH_TOKEN_EXPIRES_IN_DAYS,
 } = process.env;
 
 const requiredEnvs = {
@@ -91,6 +93,8 @@ const resolvedLogLevels = allowedLogLevels
  * @property {string} logDirectory
  * @property {string|undefined} service
  * @property {string} jwtAccessSecret
+ * @property {number} accessTokenExpiresInSeconds
+ * @property {number} refreshTokenExpiresInMs
  */
 const config = Object.freeze({
     port: toNumber(PORT, 4000),
@@ -100,6 +104,8 @@ const config = Object.freeze({
     logDirectory: LOG_DIRECTORY || "logs",
     service: SERVICE,
     jwtAccessSecret: JWT_ACCESS_SECRET,
+    accessTokenExpiresInSeconds: toNumber(ACCESS_TOKEN_EXPIRES_IN_SECONDS, 15 * 60),
+    refreshTokenExpiresInMs: toNumber(REFRESH_TOKEN_EXPIRES_IN_DAYS, 7) * 24 * 60 * 60 * 1000,
 })
 
 
