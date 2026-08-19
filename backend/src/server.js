@@ -2,7 +2,7 @@ import { app } from "./app.js";
 import { connectDatabase } from "./config/database.js";
 import { config } from "./config/index.js";
 import { systemLogger} from "./logger/pino.logger.js";
-
+import { gracefulShutdown } from "./utils/gracefulShutdown.js";
 
 /**
  * Entry point: connects to the database before starting the HTTP server,
@@ -17,6 +17,8 @@ const startServer = async() => {
         const server = app.listen(config.port, () => {
             systemLogger.info(`Listening on port: ${config.port}`);
         })
+
+        gracefulShutdown(server);
     }catch(error){
         systemLogger.error({err: error}, "Server connection error");
         process.exit(1);
